@@ -15,6 +15,9 @@ class Image:
     def get_matrix(self):
         return self._matrix
 
+    def back_to_raw(self):
+        self._matrix = copy.deepcopy(self._raw)
+
     def rgb2gray(self):
         if self._status == "color":
             self._matrix = np.dot(self._matrix[..., :3], [0.299, 0.587, 0.114])
@@ -58,10 +61,9 @@ class Image:
 
     def bin_erosion(self, kernel=np.zeros((2, 2))+255):
         k_width, k_height = kernel.shape[1], kernel.shape[0]
+        new_mat = np.zeros((self._matrix.shape[0], self._matrix.shape[1]))
         self._matrix = np.hstack((self._matrix, np.zeros((self._matrix.shape[0], k_width-1))))
         self._matrix = np.vstack((self._matrix, np.zeros((k_height-1, self._matrix.shape[1]))))
-
-        new_mat = np.zeros((self._matrix.shape[0], self._matrix.shape[1]))
         for i in range(self._matrix.shape[0] - k_height + 1):
             for j in range(self._matrix.shape[1] - k_width + 1):
                 value = np.max(kernel - self._matrix[i: i+k_height, j: j+k_width])
@@ -70,10 +72,11 @@ class Image:
 
     def bin_dilation(self, kernel=np.zeros((2, 2))+255):
         k_width, k_height = kernel.shape[1], kernel.shape[0]
+        new_mat = np.zeros((self._matrix.shape[0], self._matrix.shape[1]))
         self._matrix = np.hstack((self._matrix, np.zeros((self._matrix.shape[0], k_width - 1))))
         self._matrix = np.vstack((self._matrix, np.zeros((k_height - 1, self._matrix.shape[1]))))
 
-        new_mat = np.zeros((self._matrix.shape[0], self._matrix.shape[1]))
+
         for i in range(self._matrix.shape[0] - k_height + 1):
             for j in range(self._matrix.shape[1] - k_width + 1):
                 value = np.max(kernel + self._matrix[i: i + k_height, j: j + k_width])

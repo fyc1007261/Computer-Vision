@@ -1,23 +1,8 @@
-import matplotlib.pyplot as plt
-from matplotlib.image import imsave, imread
-import numpy as np
+from window import *
+import tkinter as tk
 
-from image import Image
-
-pic = imread("img/face.png")
-
-image = Image(pic)
-
-image.rgb2gray()
-
-image.to_binary()
-
-
-plt.imshow(image.get_matrix(), cmap='Greys_r')
-plt.show()
-
-image.bin_dilation()
-
-plt.imshow(image.get_matrix(), cmap='Greys_r')
-plt.show()
-
+root = tk.Tk()
+root.title("Morphological Operations")
+root.geometry('1200x800')
+window = Window(root)
+root.mainloop()
