@@ -75,8 +75,6 @@ class Image:
         new_mat = np.zeros((self._matrix.shape[0], self._matrix.shape[1]))
         self._matrix = np.hstack((self._matrix, np.zeros((self._matrix.shape[0], k_width - 1))))
         self._matrix = np.vstack((self._matrix, np.zeros((k_height - 1, self._matrix.shape[1]))))
-
-
         for i in range(self._matrix.shape[0] - k_height + 1):
             for j in range(self._matrix.shape[1] - k_width + 1):
                 value = np.max(kernel + self._matrix[i: i + k_height, j: j + k_width])
